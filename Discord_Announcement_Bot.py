@@ -3,6 +3,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
+from flask import Flask
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -107,5 +108,15 @@ async def announce(
         response_msg += f"\n⚠️ Could not DM: {', '.join(failed)}"
 
     await interaction.followup.send(response_msg, ephemeral=True)
+
+app = Flask(__name__)
+
+@app.route('/')
+
+def home():
+    return "Bot is running", 200
+
+def run_flask():
+    app.run(host = "0.0.0.0", port = 8000)
 
 bot.run(TOKEN)
