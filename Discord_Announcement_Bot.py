@@ -4,6 +4,7 @@ from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
 from flask import Flask
+from threading import Thread
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -112,11 +113,13 @@ async def announce(
 app = Flask(__name__)
 
 @app.route('/')
-
 def home():
-    return "Bot is running", 200
+    return "✅ Bot is running!", 200
 
 def run_flask():
-    app.run(host = "0.0.0.0", port = 8000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
+Thread(target=run_flask).start()
 
 bot.run(TOKEN)
